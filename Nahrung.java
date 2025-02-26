@@ -8,6 +8,7 @@ public class Nahrung {
 
     public static final String EMPFOHLEN = "eher empfohlen"; 
     public static final String NICHTEMPFOHLEN = "nicht empfohlen";
+    public static final String[] MERKMALE = {"Energie", "Fett", "Fettsaeure", "Kohlenhydrate", "Zucker", "Eiweiss", "Salz"};
 
     /**
      * Erstellt eine neue Nahrung aus dem Array mit den Werten in folgender Reihenfolge: 
@@ -53,6 +54,12 @@ public class Nahrung {
     public double getWert(int merkmalPosition){
         return werte[merkmalPosition];
     }
+
+    public static String getMerkmal(int merkmal){
+        return MERKMALE[merkmal];
+    }
+
+
 
     public String getLabel() {
         return label;

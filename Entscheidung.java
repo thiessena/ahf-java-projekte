@@ -1,14 +1,14 @@
 public class Entscheidung extends EKnoten{
     String merkmal;
-    float splitWert;
+    double schwellenwert;
 
-    public Entscheidung(String pMerkmal, float pSplitWert){
+    public Entscheidung(String pMerkmal, double pSchwellenwert){
         merkmal = pMerkmal; 
-        splitWert = pSplitWert;
+        schwellenwert = pSchwellenwert;
     }
 
-    public boolean kleinerAlsSplitWert(Nahrung datensatz){
-        return datensatz.getWert(merkmal) < splitWert;
+    public boolean kleinerAlsSchwellenwert(Nahrung datensatz){
+        return datensatz.getWert(merkmal) < schwellenwert;
     }
 
     public String getMerkmal() {
@@ -19,15 +19,15 @@ public class Entscheidung extends EKnoten{
         merkmal = pParameter;
     }
 
-    public float getSplitWert() {
-        return splitWert;
+    public float getSchwellenwert() {
+        return schwellenwert;
     }
 
-    public void setSplitWert(float pSplitWert) {
-        splitWert = pSplitWert;
+    public void setSchwellenwert(float pSchwellenwert) {
+        schwellenwert = pSchwellenwert;
     }
 
     public String toString(){
-        return "["+merkmal + " : " + splitWert + "]";
+        return "["+merkmal + " : " + schwellenwert + "]";
     }
 }

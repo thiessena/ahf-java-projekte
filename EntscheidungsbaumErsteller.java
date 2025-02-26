@@ -93,21 +93,62 @@ public class EntscheidungsbaumErsteller {
     }
 
     public Entscheidungsbaum erstelleAusTrainingsdaten(Nahrung[] datensaetze){
-        
+        //toDo
 
-        int minFehler=datensaetze.length;
+        int minFehler = datensaetze.length;
         for(int merkmal = 0; merkmal < Nahrung.merkmalAnzahl; merkmal++){
-            int fehler = 0; 
-            sortiereNachMerkmal(datensaetze, merkmal);
+            Entscheidung e = bestimmeSplitPosFuerMerkmal(merkmal, datensaetze);
+            if(< minFehler){
+                minFehler = 
+            }
+            
 
         }
-        
+
+        return new Entscheidungsbaum();
 
     }
 
+    private Entscheidung bestimmeSplitWertFuerMerkmal(int merkmal, Nahrung[] datensaetze){
+        int minFehler = datensaetze.length;
+        int minSplitPos = 0;
+        boolean umgekehrteTeilung = false;
+        double splitWert = 0;
+        sortiereNachMerkmal(merkmal,datensaetze);
+        for(int splitPos = 0; splitPos < datensaetze.length; splitPos++){
+            int splitFehler = 0;
+            //linke Hälfte
+            for(int i = 0; i < splitPos; i++){
+                if(datensaetze[i].getLabel().equals(Nahrung.EMPFOHLEN)){
+                    splitFehler++;
+                }
+            }
+            //rechte Hälfte
+            for(int i = splitPos; i < datensaetze.length; i++){
+                if(datensaetze[i].getLabel().equals(Nahrung.NICHTEMPFOHLEN)){
+                    splitFehler++;
+                }
+            }
+            if( splitFehler < minFehler){
+                minFehler = splitFehler;
+                minSplitPos = splitPos;
+                umgekehrteTeilung = false;
+            }
+            if( datensaetze.length - splitFehler < minFehler){
+                minFehler = datensaetze.length - splitFehler;
+                minSplitPos = splitPos;
+                umgekehrteTeilung = true;
+            }
+        }
+        if(umgekehrteTeilung){
+            Entscheidung e = new Entscheidung(Nahrung.getMerkmal(merkmal), datensaetze[minSplitPos].getWert(merkmal));
+            e.setDatensatzAnzahl(datensaetze.length);
+            return e;
+        }
+        
+    }
 
-
-    private void sortiereNachMerkmal(Nahrung[] datensaetze, int merkmal){
+    private void sortiereNachMerkmal(int merkmal, Nahrung[] datensaetze){
         for(int pos = 1; pos < datensaetze.length; pos++){
             for(int in = pos-1; in > -1; in--){
                 if(datensaetze[pos].getWert(merkmal) < datensaetze[in].getWert(merkmal)){
@@ -121,18 +162,7 @@ public class EntscheidungsbaumErsteller {
         }
     }
 
-    private int bestimmeSplit(Nahrung[] datensaetze, int merkmal){
-        int fehler = datensaetze.length;
-        int splitPos = 0; 
-        while(splitPos < datensaetze.length){
-            int splitFehler = 0;
-            double splitWert = datensaetze[splitPos].getWert(merkmal);
-            for(int i = 0; i < datensaetze.length; i++){
-                
-            }
-        }
 
-    }
 
 
 

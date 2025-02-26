@@ -40,15 +40,15 @@ public class Entscheidungsbaum{
      * @param datensatz
      * @return
     */
-    private String kategorisiere_it(Nahrung datensatz){
+    public String kategorisiere_it(Nahrung datensatz){
         BinaryTree<EKnoten> aktuellerKnoten = baum; 
         while(aktuellerKnoten.getContent() instanceof Entscheidung){
             Entscheidung e = (Entscheidung)aktuellerKnoten.getContent();
-            if(e.kleinerAlsSplitWert(datensatz)){
-                System.out.println(datensatz.getName() + ":" + datensatz.getWert(e.getMerkmal()) + " < " +e.getSplitWert() + " ["+ e.getMerkmal() + "]" );
+            if(e.kleinerAlsSchwellenwert(datensatz)){
+                System.out.println(datensatz.getName() + ":" + datensatz.getWert(e.getMerkmal()) + " < " +e.getSchwellenwert() + " ["+ e.getMerkmal() + "]" );
                 aktuellerKnoten = aktuellerKnoten.getLeftTree();
             }else{
-                System.out.println(datensatz.getName() + ":" + datensatz.getWert(e.getMerkmal()) + " >= " +e.getSplitWert() + " ["+ e.getMerkmal() + "]" );
+                System.out.println(datensatz.getName() + ":" + datensatz.getWert(e.getMerkmal()) + " >= " +e.getSchwellenwert() + " ["+ e.getMerkmal() + "]" );
                 aktuellerKnoten = aktuellerKnoten.getRightTree();
             }
         }
@@ -56,21 +56,18 @@ public class Entscheidungsbaum{
         return l.getName();
     }
 
-    private String kategorisiere_rek(BinaryTree<EKnoten> baum, Nahrung datensatz){
-        if(baum != null){
-            if( baum.getContent() instanceof Entscheidung){
-                Entscheidung e = (Entscheidung)baum.getContent();
-                if(e.kleinerAlsSplitWert(datensatz)){
-                    return kategorisiere_rek(baum.getLeftTree(), datensatz);
-                }else{
-                    return kategorisiere_rek(baum.getRightTree(), datensatz);
-                }
+    public String kategorisiere_rek(BinaryTree<EKnoten> baum, Nahrung datensatz){
+        if( baum.getContent() instanceof Entscheidung){
+            Entscheidung e = (Entscheidung)baum.getContent();
+            if(e.kleinerAlsSchwellenwert(datensatz)){
+                return kategorisiere_rek(baum.getLeftTree(), datensatz);
             }else{
-                Label l = (Label)baum.getContent();
-                return l.getName();
+                return kategorisiere_rek(baum.getRightTree(), datensatz);
             }
+        }else{
+            Label l = (Label)baum.getContent();
+            return l.getName();
         }
-        return "Baum ist leer";
     }
 
     /**=============================[Ausgabe]=========================*/
@@ -82,8 +79,9 @@ public class Entscheidungsbaum{
     private void ausgabe_rek(BinaryTree<EKnoten> pBaum, String tiefe){
         if(pBaum != null){
             System.out.println(tiefe+pBaum.getContent());
-            ausgabe_rek(pBaum.getLeftTree(), tiefe+"   ");
-            ausgabe_rek(pBaum.getRightTree(), tiefe+"   ");
+            ausgabe_rek(pBaum.getLeftTree(), tiefe+"------");
+            
+            ausgabe_rek(pBaum.getRightTree(), tiefe+"------");
         }
     }
 
